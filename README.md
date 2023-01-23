@@ -6,7 +6,8 @@
 |유저 관련 api| 회원가입, 로그인, 로그아웃 구현|
 |spring security|accessToken, refreshToken filter 구현 ( refreshToken은 로컬db에 저장 )| 
 |spring security|authority 에 따른 접근 권한 구현|
-|api/error response|response 형식 통일|
+|api response|response 형식 통일|
+|환경 분리|application.yml 통한 환경 분리|
 
 
 ### **API 명세서**
