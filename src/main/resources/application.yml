@@ -1,0 +1,54 @@
+# default
+spring:
+  profiles:
+    active: local # default
+    group:
+      local:  # local, common profile? ???? ?? ?????? ??    
+        - common
+      prod:   # prod, common profile? ???? ?? ?????? ??  
+        - common
+      test:   # test, common profile? ???? ?? ?????? ??
+        - test
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: common   # application-common.yml ? ??? ??
+server:
+  port: 8080
+
+jwt:
+  secret: secretadfhoquiwerhioufhsduifhasoifdhioafuisadhuifasidfn
+  refresh-token-validity: 3600  # 1??
+  access-token-validity: 300 # 5?
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/java-advanced
+    username: root
+    password: root1234!
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
