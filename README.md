@@ -1,10 +1,13 @@
 ## spring-template
 개인용 spring 템플렛
+**branch develop** : refresh 토큰을 로컬 db에 적용한 버젼
+**branch redis** : refresh 토큰을 redis에 적용한 버젼
+
 ### **구현 상황**
 |기능|설명|
 |------|---|
 |유저 관련 api| 회원가입, 로그인, 로그아웃 구현|
-|spring security|accessToken, refreshToken filter 구현 ( refreshToken은 로컬db에 저장 )| 
+|spring security|accessToken, refreshToken filter 구현 ( refreshToken은 로컬db or redis에 저장 )| 
 |spring security|authority 에 따른 접근 권한 구현|
 |api response|response 형식 통일|
 |환경 분리|application.yml 통한 환경 분리|
