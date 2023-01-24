@@ -31,7 +31,6 @@ public class UserAccount extends BaseEntity implements UserDetails
     @Setter @Column(nullable = false, length = 30, name = "name") private String name;
     @Embedded @Column(length = 300, name = "address") private Address address;
     @JoinTable(name = "user_role") @ElementCollection @Column(nullable = false, length = 50, name = "authority") @Enumerated(EnumType.STRING) private Set<Authority> authority;
-    @Setter @Column(length=300, name = "refresh_token") private String refreshToken;
     @Builder
     public UserAccount(String email, String password, String name, Address address, Set<Authority> authority) {
         this.email = email;

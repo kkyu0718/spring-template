@@ -3,11 +3,11 @@ spring:
   profiles:
     active: local # default
     group:
-      local:  # local, common profile? ???? ?? ?????? ??    
+      local:  # local, common profile
         - common
-      prod:   # prod, common profile? ???? ?? ?????? ??  
+      prod:   # prod, common profile
         - common
-      test:   # test, common profile? ???? ?? ?????? ??
+      test:   # test, common profile
         - test
 
 ---
@@ -15,14 +15,19 @@ spring:
 spring:
   config:
     activate:
-      on-profile: common   # application-common.yml ? ??? ??
+      on-profile: common   # application-common.yml
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
 server:
   port: 8080
 
 jwt:
   secret: secretadfhoquiwerhioufhsduifhasoifdhioafuisadhuifasidfn
-  refresh-token-validity: 3600  # 1??
-  access-token-validity: 300 # 5?
+  refresh-token-validity: 3600  # 1hour
+  access-token-validity: 300 # 5min
 
 ---
 

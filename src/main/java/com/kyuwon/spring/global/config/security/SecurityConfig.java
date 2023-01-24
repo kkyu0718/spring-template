@@ -2,6 +2,7 @@ package com.kyuwon.spring.global.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kyuwon.spring.domain.user.repository.UserRepository;
+import com.kyuwon.spring.domain.user.service.TokenService;
 import com.kyuwon.spring.domain.user.service.UserFindService;
 import com.kyuwon.spring.global.config.security.handler.JwtAccessDeniedHandler;
 import com.kyuwon.spring.global.config.security.handler.JwtAuthenticationEntryPointHandler;
@@ -117,8 +118,8 @@ public class SecurityConfig {
 
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, UserFindService userFindService) {
-        return new JwtAuthenticationFilter(jwtTokenProvider, userFindService);
+    public JwtAuthenticationFilter jwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider, TokenService tokenService) {
+        return new JwtAuthenticationFilter(jwtTokenProvider, tokenService);
     }
 
 }

@@ -31,9 +31,8 @@ public enum ErrorCode {
     TOKEN_EXPIRED(400, "J004", "토큰이 만료되었습니다."),
     UNSUPPORTED_JWT(400, "J005", "지원하지 않는 토큰 형식입니다."),
     ILLEGAL_ARGUMENT(400, "J006", "토큰의 compact가 invalid합니다."),
-    REFRESH_TOKEN_EXPIRED(400, "J007", "refresh 토큰이 만료되었습니다. 다시 로그인해주세요."),
-    NO_DB_TOKEN(400, "J008", "db에 refresh token이 없습니다. 로그인하지 않은 유저입니다." ),
-    USER_LOGOUTED(400,"J009" , "토큰의 유저는 로그아웃 되었습니다.");
+    REFRESH_TOKEN_MISMATCH(400, "J007", "db와 request의 refresh 토큰이 일치하지 않습니다."),
+    NO_DB_TOKEN(400, "J008", "db에 해당 refresh token이 없습니다. 로그인하지 않은 유저입니다." );
     private final String code;
     private final String message;
     private int status;

@@ -12,12 +12,11 @@ import com.kyuwon.spring.global.common.api.ApiResponse;
 import com.kyuwon.spring.global.common.api.ResponseCode;
 import com.kyuwon.spring.domain.user.dto.response.SignUpResponse;
 import com.kyuwon.spring.domain.user.service.SignUpService;
+import com.kyuwon.spring.global.config.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,6 +73,8 @@ public class AuthController {
             @Validated @RequestHeader("Authorization") String refreshToken,
             Principal principal) {
         Long userId = Long.parseLong(principal.getName());
+        // prefix 제거
+        refreshToken = refreshToken.substring(JwtTokenProvider.TOKEN_PREFIX.length());
         List<String> tokens = tokenService.refreshToken(refreshToken, userId);
 
         String newAccessToken = tokens.get(0);

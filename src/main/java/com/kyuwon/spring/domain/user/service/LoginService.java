@@ -1,6 +1,7 @@
 package com.kyuwon.spring.domain.user.service;
 
 import com.kyuwon.spring.domain.user.domain.UserAccount;
+import com.kyuwon.spring.domain.user.repository.UserRepository;
 import com.kyuwon.spring.global.common.error.exception.BusinessException;
 import com.kyuwon.spring.global.common.error.exception.ErrorCode;
 import com.kyuwon.spring.global.config.security.jwt.JwtTokenProvider;
@@ -17,6 +18,7 @@ import java.util.List;
 @Transactional
 @Service
 public class LoginService {
+    private final UserRepository userRepository;
     private final UserFindService userFindService;
     private final TokenService tokenService;
     private final PasswordEncoder passwordEncoder;
@@ -31,7 +33,7 @@ public class LoginService {
         String refreshToken = jwtTokenProvider.createRefreshToken(user.getId());
 
         // refresh token이 이미 존재하면 새로 갱신하고, 없어도 다시 발급한다.
-        tokenService.saveRefreshToken(user, refreshToken);
+        tokenService.saveRefreshToken(user.getId(), refreshToken); // redis
 
         return List.of(accessToken, refreshToken);
     }
