@@ -1,5 +1,6 @@
 package com.kyuwon.spring.domain.user.controller;
 
+import com.kyuwon.spring.domain.user.domain.UserAccount;
 import com.kyuwon.spring.domain.user.dto.request.LoginRequest;
 import com.kyuwon.spring.domain.user.dto.request.SignUpRequest;
 import com.kyuwon.spring.domain.user.dto.response.LoginResponse;
@@ -16,10 +17,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -33,7 +36,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<ApiResponse<SignUpResponse>> signUp(@Validated @RequestBody SignUpRequest request) {
-        SignUpResponse user = signUpService.saveUser(
+        UserAccount user = signUpService.saveUser(
                 request.name(),
                 request.email(),
                 request.password(),
@@ -42,16 +45,20 @@ public class AuthController {
                 request.city(),
                 request.zipCode()
         );
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse(ResponseCode.USER_CREATED, user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse(ResponseCode.USER_CREATED, SignUpResponse.of(user)));
     }
 
     @PostMapping("/login")
     public ResponseEntity<ApiResponse<LoginResponse>> login(@Validated @RequestBody LoginRequest request) {
-        LoginResponse user = loginService.loginUser(
+        List<String> tokens = loginService.loginUser(
                 request.email(),
                 request.password()
         );
-        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(ResponseCode.USER_LOGIN_SUCCESS, user));
+
+        String accessToken = tokens.get(0);
+        String refreshToken = tokens.get(1);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ApiResponse(ResponseCode.USER_LOGIN_SUCCESS, LoginResponse.of(accessToken, refreshToken)));
     }
 
     @PostMapping("/logout")
@@ -67,9 +74,12 @@ public class AuthController {
             @Validated @RequestHeader("Authorization") String refreshToken,
             Principal principal) {
         Long userId = Long.parseLong(principal.getName());
-        TokenResponse token = tokenService.refreshToken(refreshToken, userId);
+        List<String> tokens = tokenService.refreshToken(refreshToken, userId);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse(ResponseCode.REFRESH_TOKEN, token));
+        String newAccessToken = tokens.get(0);
+        String newRefreshToken = tokens.get(1);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponse(ResponseCode.REFRESH_TOKEN, TokenResponse.of(newAccessToken, newRefreshToken)));
     }
 }
 

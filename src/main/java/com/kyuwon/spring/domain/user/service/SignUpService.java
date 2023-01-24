@@ -3,7 +3,6 @@ package com.kyuwon.spring.domain.user.service;
 import com.kyuwon.spring.domain.user.domain.UserAccount;
 import com.kyuwon.spring.domain.user.model.Address;
 import com.kyuwon.spring.domain.user.repository.UserRepository;
-import com.kyuwon.spring.domain.user.dto.response.SignUpResponse;
 import com.kyuwon.spring.global.common.error.exception.BusinessException;
 import com.kyuwon.spring.global.common.error.exception.ErrorCode;
 import com.kyuwon.spring.domain.user.model.Authority;
@@ -25,7 +24,7 @@ public class SignUpService {
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public SignUpResponse saveUser(
+    public UserAccount saveUser(
             String name,
             String email,
             String password,
@@ -51,7 +50,7 @@ public class SignUpService {
 
         validateDuplicateEmail(email);
         UserAccount user = userRepository.save(userAccount);
-        return SignUpResponse.of(user);
+        return user;
     }
 
     private void validateDuplicateEmail(String email) {

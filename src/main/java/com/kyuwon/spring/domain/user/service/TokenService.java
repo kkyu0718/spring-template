@@ -1,7 +1,6 @@
 package com.kyuwon.spring.domain.user.service;
 
 import com.kyuwon.spring.domain.user.domain.UserAccount;
-import com.kyuwon.spring.domain.user.dto.response.TokenResponse;
 import com.kyuwon.spring.domain.user.repository.UserRepository;
 import com.kyuwon.spring.global.common.error.exception.BusinessException;
 import com.kyuwon.spring.global.common.error.exception.ErrorCode;
@@ -10,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class TokenService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserFindService userFindService;
 
-    public TokenResponse refreshToken(String refreshToken, Long userId) {
+    public List<String> refreshToken(String refreshToken, Long userId) {
         UserAccount userAccount = userFindService.findById(userId);
         String dbToken = userAccount.getRefreshToken();
 
@@ -32,7 +33,7 @@ public class TokenService {
         // db의 refresh token 갱신
         saveRefreshToken(userAccount, newRefreshToken);
 
-        return new TokenResponse(newAccessToken, newRefreshToken);
+        return List.of(newAccessToken, newRefreshToken);
     }
 
     private void checkRefreshToken(String dbToken, String refreshToken) {
