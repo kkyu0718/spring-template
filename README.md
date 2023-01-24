@@ -1,6 +1,8 @@
 ## spring-template
 개인용 spring 템플렛
+
 **branch develop** : refresh 토큰을 로컬 db에 적용한 버젼
+
 **branch redis** : refresh 토큰을 redis에 적용한 버젼
 
 ### **구현 상황**
